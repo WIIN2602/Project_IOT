@@ -251,24 +251,6 @@
     <script src="js/main.js"></script>
 
     <script>
-        document.getElementByName('booking_btn').addEventListener('click', function() {
-            // When button is clicked, make a request to trigger Python script
-            fetch('../face_recog.py')
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Failed to trigger detection');
-                    }
-                    return response.text();
-                })
-                .then(data => {
-                    alert(data); // Alert success message from Python
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-        });
-    </script>
-    <script>
       function showRoom() {
         alert(
           "Your room is floor 1 room number 160\nYour room password is 3793"
