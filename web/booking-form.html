@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="CodePel" />
+    <title>XYZ Hotel Booking</title>
+    <!-- Style CSS -->
+    <link rel="stylesheet" href="./css/style-booking.css" />
+    <!-- Demo CSS (No need to include it into your project) -->
+    <link rel="stylesheet" href="./css/demo-booking.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Nanum+Gothic"
+    />
+  </head>
+  <body bgcolor="#ADD8E6">
+    <form class="booking-form" action="../data.php" method="post">
+      <div class="elem-group">
+        <label> Enter your data to booking room</label><br /><br />
+      </div>
+      <div class="elem-group">
+        <input type="hidden" name="random_code" id="random_code" />
+      </div>
+      <div class="elem-group">
+        <label for="name">Your Name</label>
+        <input type="text" id="name" name="booking_name" required />
+      </div>
+      <div class="elem-group">
+        <label for="email">Your E-mail</label>
+        <input
+          type="email"
+          id="email"
+          name="booking_email"
+          placeholder="example@email.com"
+          required
+        />
+      </div>
+      <div class="elem-group">
+        <label for="phone">Your Phone</label>
+        <input
+          type="tel"
+          id="phone"
+          name="booking_phone"
+          placeholder="498-348-3872"
+          required
+        />
+      </div>
+      <hr />
+      <div class="elem-group inlined">
+        <label for="adult">Adults</label>
+        <input
+          type="number"
+          id="adult"
+          name="adult"
+          placeholder="2"
+          min="1"
+          required
+        />
+      </div>
+      <div class="elem-group inlined">
+        <label for="child">Children</label>
+        <input
+          type="number"
+          id="child"
+          name="child"
+          placeholder="2"
+          min="0"
+          required
+        />
+      </div>
+      <div class="elem-group inlined">
+        <label for="checkin-date">Check-in Date</label>
+        <input type="date" id="checkin-date" name="checkindate" required />
+      </div>
+      <div class="elem-group inlined">
+        <label for="checkout-date">Check-out Date</label>
+        <input type="date" id="checkout-date" name="checkoutdate" required />
+      </div>
+      <button type="submit" onclick="showRandomText()">Book The Rooms</button>
+    </form>
+  </body>
+  <!-- Script JS -->
+  <script>
+    // ฟังก์ชันสำหรับสุ่มตัวอักษร
+    function randomCharacter() {
+      // สร้างอาร์เรย์ของตัวอักษรที่เป็นไปได้
+      var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+      // เลือกตัวอักษรสุ่มจากอาร์เรย์
+      var randomIndex = Math.floor(Math.random() * characters.length);
+      // คืนค่าตัวอักษรที่ถูกสุ่ม
+      return characters.charAt(randomIndex);
+    }
+
+    // ฟังก์ชันสำหรับสุ่มตัวเลข
+    function randomNumber(min, max) {
+      // สุ่มตัวเลขในช่วงที่กำหนด
+      return Math.floor(Math.random() * (max - min + 1) + min);
+    }
+
+    // สุ่มตัวอักษรและตัวเลข
+    function randomCharacterAndNumber(length) {
+      var result = "";
+      for (var i = 0; i < length; i++) {
+        // สุ่มตัวเลขหรือตัวอักษร
+        var randomType = Math.random() < 0.5 ? "character" : "number";
+        if (randomType === "character") {
+          result += randomCharacter();
+        } else {
+          result += randomNumber(0, 9).toString();
+        }
+      }
+      return result;
+    }
+
+    function showRandomText() {
+      var randomString = randomCharacterAndNumber(10);
+      // Set the random code to a hidden input field
+      document.getElementById("random_code").value = randomString;
+      alert(
+        "Remember this code => " +
+          randomString +
+          "\nIf you press 'OK' button Will not be able to request to see the code again."
+      );
+    }
+  </script>
+  <script>
+    var currentDateTime = new Date();
+    var year = currentDateTime.getFullYear();
+    var month = currentDateTime.getMonth() + 1;
+    var date = currentDateTime.getDate() + 1;
+
+    if (date < 10) {
+      date = "0" + date;
+    }
+    if (month < 10) {
+      month = "0" + month;
+    }
+
+    var dateTomorrow = year + "-" + month + "-" + date;
+    var checkinElem = document.querySelector("#checkin-date");
+    var checkoutElem = document.querySelector("#checkout-date");
+
+    checkinElem.setAttribute("min", dateTomorrow);
+
+    checkinElem.onchange = function () {
+      checkoutElem.setAttribute("min", this.value);
+    };
+  </script>
+</html>
